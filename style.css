@@ -37,6 +37,8 @@ html {
 
 .cards {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .card {
@@ -61,8 +63,8 @@ html {
 }
 
 img.card {
-    width: 70px;
-    height: 90px;
+    width: 90px;
+    height: 110px;
 }
 
 .user-area {
@@ -109,4 +111,8 @@ img.card {
     color: #fff;
     cursor: pointer;
     box-shadow: -2px 3px 24px -3px #fff
+}
+
+#action {
+    z-index: 10;
 }

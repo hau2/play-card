@@ -172,8 +172,8 @@ const game = {
     </div><div>
     <img class="card" src="./img/behind-card.png" alt="">
     </div> `
-    myCard.innerHTML += userHtmls;
-    botCard.innerHTML += botHtmmls;
+    myCard.innerHTML = userHtmls;
+    botCard.innerHTML = botHtmmls;
     btnPlay.hidden = true;
     actionElement.innerHTML = `<button class="btn-action btn-dan">Dằn</button>
     <button class="btn-action btn-rut" onclick = game.addCardUser();>Rút</button>`;
