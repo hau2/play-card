@@ -18,14 +18,14 @@ class Player {
     type = 'player';
     point = 0;
     numOfCards = 0;
-    hasAce = false;
+    numOfAces = 0;
     imgUrls = [];
     finish = false;
 
     reset(){
         this.point = 0;
         this.numOfCards = 0;
-        this.hasAce = false;
+        this.numOfAces = 0;
         this.imgUrls = [];
         this.finish = false;
     }
@@ -64,6 +64,7 @@ class Player {
     }
 
     showCard(){
+        if(this.type == 'bot') return;
         $$(`.card.${this.type}`).forEach((element, index) => {
             // nếu mở rồi thì thôi
             if(!element.classList.contains('open')){
@@ -76,7 +77,38 @@ class Player {
     }
 
     finishAddCard(){
-        game.finishGame();
+        this.finish = true;
+        game.botCheck();
+    }
+
+    getResult(){
+        if(this.numOfCards == 2 && this.point == 11 && this.numOfAces>0) return 44; // xì dách
+        else if(this.numOfCards ==5 && this.point<=21) return 55; // ngủ linh
+        else if(this.numOfAces == 2 && this.numOfCards == 2){
+            return 66; // xì bàng
+        } else if(this.numOfAces>0 && this.numOfCards == 2) {
+            return this.point + 10;
+        } else if(this.numOfAces>0 && this.numOfCards == 3){
+            let check = this.point + this.numOfAces*9;
+            if(check > 21) return this.point;
+            else {
+                let value1 =  this.point + this.numOfAces*9;
+                let value2 = this.point + this.numOfAces*10;
+                return (value2 > value1 && value2<=21) ? value2 : value1; 
+            }
+        } if(this.point > 21){
+            return 77;
+        } else return this.point;
+    }
+
+    getResultText(){
+        switch(this.getResult()){
+            case 44: return `Xì dách`;
+            case 55: return `Ngũ linh`;
+            case 66: return `Xì bàng`;
+            case 77: return `Quắt :((`;
+            default: return `${this.getResult()} điểm`;
+        }
     }
 
 }
@@ -199,8 +231,8 @@ const game = {
     reset: function () {
         player.reset();
         bot.reset();
-        botMessage.innerHTML = ``;
-        playerMessage.innerHTML = ``;
+        botMessage.hidden = true;
+        playerMessage.hidden = true;
         playerCard.innerHTML = ``;
         botCard.innerHTML = ``;
         listCardsClone = JSON.parse(JSON.stringify(listCards));
@@ -228,6 +260,10 @@ const game = {
         }
         // console.log('OK');
         // console.log(listCardsClone);
+        if(card.value == 1) {
+            player.numOfAces++; 
+            console.log('Có xì');
+        }
         player.point += card.value;
         player.addBehindCard();
         player.numOfCards++;
@@ -239,8 +275,8 @@ const game = {
         let point = bot.point;
         console.log(numOfCards);
         console.log(point);
-        while(numOfCards <=4 && point<19){
-            if(point >= 16){
+        while(bot.getResult()< 19){
+            if(bot.getResult() >= 16){
                 choose = this.isAddCard();
                 console.log(choose);
                 if(choose){
@@ -248,7 +284,7 @@ const game = {
                     point = bot.point;
                     console.log("Add " + point);
                     numOfCards++;
-                    if(point>=21) break;
+                    if(bot.getResult()>=21) break;
                 }
             }else {
                 bot.addCard();
@@ -282,17 +318,23 @@ const game = {
     //         }, 1000)
     // },
 
-    finishGame(){
+    botCheck(){
         console.log();
         btnRut.hidden = true;
         btnDan.hidden = true;
         this.changePlayer();
+        this.finishGame();
+    },
+
+    finishGame: function () {
         setTimeout(()=>{
             console.log('Kết thúc','bot:', bot.point, 'player', player.point);
             bot.showAllCard();
             player.showAllCard();
-            botMessage.innerText = `${bot.point} điểm`;
-            playerMessage.innerText = `${player.point} điểm`;
+            botMessage.hidden = false;
+            playerMessage.hidden = false;
+            botMessage.innerText = bot.getResultText();
+            playerMessage.innerText = player.getResultText();
             btnPlay.hidden = false;
         },2000);
     },
@@ -316,12 +358,29 @@ const game = {
     this.reset();
     player.innitCard();
     bot.innitCard();
+
+    //ẩn nút play
     btnPlay.hidden = true;
     btnPlay.innerText = 'Chơi lại';
     actionElement.innerHTML = `<button class="btn-action btn-dan" onclick = player.finishAddCard()>Dằn</button>
     <button class="btn-action btn-rut" onclick = player.addCard();>Rút</button>`;
+
+    // lấy ra btn để thao tác
     btnRut = $('.btn-rut');
     btnDan = $('.btn-dan');
+
+    // xì dách rồi thì thắng luôn
+    if(this.hasWiner()){
+        console.log('Da co nguoi thang');
+        game.finishGame();
+    }
+    
+    
     },
+
+    hasWiner: function () {
+        return player.getResult() == 44 || player.getResult() == 66 ||
+        bot.getResult() == 44 || bot.getResult() == 66;
+    }
 
 }
