@@ -9,7 +9,7 @@ html {
 }
 
 .app {
-    padding: 10px 0;
+    padding: 20px 0;
     height: 100vh;
     width: 100vw;
     /* background-image: url("./img/table-game.jpg");
@@ -134,6 +134,6 @@ img.card {
 
 .copyright {
     position: absolute;
-    bottom: 0;
+    top: 0;
     right: 0;
 }

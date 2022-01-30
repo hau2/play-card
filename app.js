@@ -235,7 +235,11 @@ const game = {
         playerMessage.hidden = true;
         playerCard.innerHTML = ``;
         botCard.innerHTML = ``;
+
+        //clone cards để khỏi bị tham chiếu
         listCardsClone = JSON.parse(JSON.stringify(listCards));
+
+        // random số
         listNumberRandom = [0,1,2,3,4,5,6,7,8,9];
     },
 
@@ -323,10 +327,10 @@ const game = {
         btnRut.hidden = true;
         btnDan.hidden = true;
         this.changePlayer();
-        this.finishGame();
+        this.finishGame(2000);
     },
 
-    finishGame: function () {
+    finishGame: function (ms) {
         setTimeout(()=>{
             console.log('Kết thúc','bot:', bot.point, 'player', player.point);
             bot.showAllCard();
@@ -336,7 +340,7 @@ const game = {
             botMessage.innerText = bot.getResultText();
             playerMessage.innerText = player.getResultText();
             btnPlay.hidden = false;
-        },2000);
+        },ms);
     },
 
 
@@ -372,7 +376,7 @@ const game = {
     // xì dách rồi thì thắng luôn
     if(this.hasWiner()){
         console.log('Da co nguoi thang');
-        game.finishGame();
+        game.finishGame(0);
     }
     
     
