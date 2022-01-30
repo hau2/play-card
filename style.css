@@ -49,6 +49,10 @@ html {
 
 .btn-wrap {
     position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .btn-play {
@@ -57,10 +61,10 @@ html {
     outline: none;
     background-color: rgb(12, 67, 151);
     border-radius: 10px;
-    border: none;
+    border: 2px solid rgb(0, 225, 255);
     color: #fff;
     cursor: pointer;
-    box-shadow: -2px 3px 24px -3px #fff
+    box-shadow: -2px 3px 24px -3px #fff;
 }
 
 img.card {
@@ -108,10 +112,11 @@ img.card {
     outline: none;
     background-color: rgb(20, 109, 57);
     border-radius: 10px;
-    border: none;
+    border: 2px solid rgb(230, 245, 190);
     color: #fff;
     cursor: pointer;
-    box-shadow: -2px 3px 24px -3px #fff
+    box-shadow: -2px 3px 24px -3px #fff;
+    font-weight: 600;
 }
 
 #action {
@@ -150,4 +155,8 @@ img.card {
     position: absolute;
     top: 0;
     right: 0;
+}
+
+#bot-message span, #player-message span {
+    box-shadow: -2px 3px 24px -3px #fff;
 }
