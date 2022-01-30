@@ -108,7 +108,6 @@ class Player {
                 if(arrayValue[i]>max) max = arrayValue[i];
             }
             // return (value2 > value1 && value2<=21) ? value2 : value1;
-            console.log(max);
             return max;
         } if(this.point > 21){
             return 77;
@@ -365,8 +364,8 @@ const game = {
             let bgMess = '';
             let boderColor = '';
             if(winner.type == 'bot'){
-                // nếu player dưới 15 và bot không có xì ách
-                if(player.getResult() < 15 && bot.getResult() != 44)
+                // nếu player dưới 15 và bot không có xì dách, xì bàng
+                if(player.getResult() < 15 && bot.getResult() != 44 || bot.getResult() != 66)
                 resultMess = 'Bạn thua vì < 15';
                 else resultMess = 'Bạn thua';
                 bgMess = '#8a160e';
