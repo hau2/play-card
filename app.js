@@ -244,7 +244,7 @@ const game = {
     },
 
     addCard: function (player) {
-        if(this.numOfCards >=5) {
+        if(player.numOfCards >=5) {
             alert('Rút 5 lá đủ rồi bạn ei');
             return;
         }

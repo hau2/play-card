@@ -127,6 +127,7 @@ img.card {
 }
 
 #player-message span, #bot-message span {
+    background-color: rgb(175, 175, 32);
     border: 1px solid red;
     border-radius: 20px;
     padding: 5px 10px;
