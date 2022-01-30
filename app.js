@@ -108,7 +108,9 @@ class Player {
                 if(arrayValue[i]>max) max = arrayValue[i];
             }
             // return (value2 > value1 && value2<=21) ? value2 : value1;
-            return max;
+
+            // nếu cả 3 value đều quá 21 điểm thì sẽ lấy điểm của ban đầu
+            return max == 0 ? this.point : max;
         } if(this.point > 21){
             return 77;
         } else return this.point;
@@ -454,7 +456,8 @@ const game = {
             return bot.point > player.point ? bot : player;
         } else if(botResult < 77 && playerResult < 77) {
             if(botResult>playerResult) return bot;
-            else return player;
+            else if(botResult < playerResult) return player; 
+            else return 'Hoà';
         } else {
             if(botResult==77 && playerResult== 77 || botResult == playerResult) return 'Hoà';
             else if(botResult < 77 && playerResult== 77) return bot;
