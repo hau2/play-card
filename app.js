@@ -90,7 +90,7 @@ class Player {
             return 66; // xì bàng
         } else if(this.numOfAces>0 && this.numOfCards == 2) {
             return this.point + 10;
-        } else if(this.numOfAces>0 && this.numOfCards == 3){
+        } else if(this.numOfAces>0 && this.numOfCards >= 3){
             let value1 =  this.point + this.numOfAces*9;
             let value2 = this.point + this.numOfAces*10;
             let value3 = this.point;
@@ -312,7 +312,7 @@ const game = {
                     console.log("Add " + point);
                     numOfCards++;
                     if(bot.getResult()>=21) break;
-                }
+                } else break;
             }else {
                 bot.addCard();
                 point = bot.point;
