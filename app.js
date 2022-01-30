@@ -9,7 +9,9 @@ var btnRut = null;
 var btnDan = null;
 var botMessage = $('#bot-message > span');
 var playerMessage =  $('#player-message > span');
-
+var botArea = $('.bot-area');
+var playerArea = $('.player-area');
+var gameResultText = $('.game-result');
 class Player {
     constructor(type = 'player'){
         this.type = type;
@@ -229,10 +231,15 @@ const game = {
     },
 
     reset: function () {
+        //xoá hết thuộc tính của player và bot
         player.reset();
         bot.reset();
+
+        // ẩn thông báo điểm
         botMessage.hidden = true;
         playerMessage.hidden = true;
+
+        // xoá hết bài
         playerCard.innerHTML = ``;
         botCard.innerHTML = ``;
 
@@ -241,6 +248,9 @@ const game = {
 
         // random số
         listNumberRandom = [0,1,2,3,4,5,6,7,8,9];
+
+        //xoá thông báo thắng
+        gameResultText.innerHTML = ``;
     },
 
     addCard: function (player) {
@@ -279,6 +289,8 @@ const game = {
         let point = bot.point;
         console.log(numOfCards);
         console.log(point);
+
+        // tính điểm và có nên bốc tiếp không
         while(bot.getResult()< 19){
             if(bot.getResult() >= 16){
                 choose = this.isAddCard();
@@ -335,6 +347,30 @@ const game = {
             console.log('Kết thúc','bot:', bot.point, 'player', player.point);
             bot.showAllCard();
             player.showAllCard();
+            let winner = this.getWiner();
+            console.log(winner);
+            let resultMess = '';
+            let bgMess = '';
+            let boderColor = '';
+            if(winner.type == 'bot'){
+                resultMess = 'Máy thắng';
+                bgMess = '#8a160e';
+                boderColor = 'red';
+            } else if (winner.type == 'player') {
+                resultMess = 'Bạn thắng';
+                bgMess = '#1728bd';
+                boderColor = 'blue';
+            } else {
+                resultMess = 'Hoà';
+                bgMess = '#997a07';
+                boderColor = '#c7de15';
+            }
+
+            // hiển thị và fomart thông báo thắng
+            let htmls = `<span>${resultMess}</span>`;
+            gameResultText.innerHTML = htmls;
+            gameResultText.childNodes[0].style.backgroundColor = bgMess;
+            gameResultText.childNodes[0].style.borderColor = boderColor;
             botMessage.hidden = false;
             playerMessage.hidden = false;
             botMessage.innerText = bot.getResultText();
@@ -359,32 +395,56 @@ const game = {
 
 
     start: function(){
-    this.reset();
-    player.innitCard();
-    bot.innitCard();
+        this.reset();
+        player.innitCard();
+        bot.innitCard();
 
-    //ẩn nút play
-    btnPlay.hidden = true;
-    btnPlay.innerText = 'Chơi lại';
-    actionElement.innerHTML = `<button class="btn-action btn-dan" onclick = player.finishAddCard()>Dằn</button>
-    <button class="btn-action btn-rut" onclick = player.addCard();>Rút</button>`;
+        //ẩn nút play
+        btnPlay.hidden = true;
+        btnPlay.innerText = 'Chơi lại';
 
-    // lấy ra btn để thao tác
-    btnRut = $('.btn-rut');
-    btnDan = $('.btn-dan');
+        // hiển thị thêm nút action
+        actionElement.innerHTML = `<button class="btn-action btn-dan" onclick = player.finishAddCard()>Dằn</button>
+        <button class="btn-action btn-rut" onclick = player.addCard();>Rút</button>`;
 
-    // xì dách rồi thì thắng luôn
-    if(this.hasWiner()){
-        console.log('Da co nguoi thang');
-        game.finishGame(0);
-    }
+        // lấy ra btn để thao tác
+        btnRut = $('.btn-rut');
+        btnDan = $('.btn-dan');
+
+        // xì dách rồi thì thắng luôn
+        if(this.hasWiner()){
+            console.log('Da co nguoi thang');
+            game.finishGame(0);
+            btnRut.hidden = true;
+            btnDan.hidden = true;
+        }
     
     
     },
 
     hasWiner: function () {
+        // check xem có người thắng trước không
         return player.getResult() == 44 || player.getResult() == 66 ||
         bot.getResult() == 44 || bot.getResult() == 66;
+    },
+
+    getWiner: function () { //tìm ra người thắng
+        let botResult = bot.getResult();
+        let playerResult = player.getResult();
+
+        if(botResult == 44 || botResult == 66){
+            return bot;
+        } else if(botResult == 55 && playerResult == 55){
+            return bot.point > player.point ? bot : player;
+        } else if(botResult < 77 && playerResult < 77) {
+            if(botResult>playerResult) return bot;
+            else return player;
+        } else {
+            if(botResult==77 && playerResult== 77 || botResult == playerResult) return 'Hoà';
+            else if(botResult < 77 && playerResult== 77) return bot;
+            else if(botResult==77 && playerResult < 77) return player;
+            else return botResult > playerResult ? bot : player;
+        }
     }
 
 }
