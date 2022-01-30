@@ -131,3 +131,9 @@ img.card {
     border-radius: 20px;
     padding: 5px 10px;
 }
+
+.copyright {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
