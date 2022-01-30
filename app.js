@@ -1,8 +1,7 @@
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
-
-var myCard = $('#my-cards');
+var playerCard = $('#my-cards');
 var botCard = $('#bot-cards');
 var btnPlay = $('.btn-play');
 var actionElement = $('#action');
@@ -10,19 +9,122 @@ var btnRut = $('.btn-rut');
 var btnDan = $('.btn-dan');
 
 class Player {
-    constructor(){
+    constructor(type = 'player'){
+        this.type = type;
     }
 
+    type = 'player';
     point = 0;
     numOfCards = 0;
+    hasAce = false;
+    imgUrls = [];
+    finish = false;
+
+    addBehindCard(){
+        // bài úp
+        let htmls = `<div>
+            <img class="card ${this.type}" src="./img/behind-card.png" alt=""></div> `
+        if(this.type != 'bot'){
+            playerCard.innerHTML += htmls;
+        } else {
+            botCard.innerHTML += htmls;
+        }
+        this.showCard();
+    }
+
+    addCard() {
+        game.addCard(this);
+    }
+
+    innitCard(){
+        this.point = 0;
+        for(let i=0; i<2; i++){
+            this.addCard();
+        }
+    }
+
+    showAllCard(){
+        $$(`.card.${this.type}`).forEach((element, index) => {
+            // nếu mở rồi thì thôi
+            if(!element.classList.contains('open')){
+                element.src = this.imgUrls[index];
+                element.classList.add('open');
+            }
+        });
+    }
+
+    showCard(){
+        $$(`.card.${this.type}`).forEach((element, index) => {
+            // nếu mở rồi thì thôi
+            if(!element.classList.contains('open')){
+                element.addEventListener('click', () => {
+                    element.src = this.imgUrls[index];
+                    element.classList.add('open');
+                })
+            }
+        })
+    }
+
+    finishAddCard(){
+        game.finishGame();
+    }
 
 }
-let bot = new Player();
-let player = new Player();
-
+let bot = new Player('bot');
+let player = new Player('player');
+var allCards = [];
+var listNumberRandom = [0,1,2,3,4,5,6,7,8,9];
 const game = {
 
     cards: [
+        {
+            value: 7,
+            imgUrl: [
+                "./img/PNG-cards-1.3/7_of_clubs.png",
+                "./img/PNG-cards-1.3/7_of_diamonds.png",
+                "./img/PNG-cards-1.3/7_of_hearts.png",
+                "./img/PNG-cards-1.3/7_of_spades.png",
+            ]
+        },
+        {
+            value: 8,
+            imgUrl: [
+                "./img/PNG-cards-1.3/8_of_clubs.png",
+                "./img/PNG-cards-1.3/8_of_diamonds.png",
+                "./img/PNG-cards-1.3/8_of_hearts.png",
+                "./img/PNG-cards-1.3/8_of_spades.png",
+            ]
+        },
+        {
+            value: 9,
+            imgUrl: [
+                "./img/PNG-cards-1.3/9_of_clubs.png",
+                "./img/PNG-cards-1.3/9_of_diamonds.png",
+                "./img/PNG-cards-1.3/9_of_hearts.png",
+                "./img/PNG-cards-1.3/9_of_spades.png",
+            ]
+        },
+        {
+            value: 10,
+            imgUrl: [
+                "./img/PNG-cards-1.3/10_of_clubs.png",
+                "./img/PNG-cards-1.3/10_of_diamonds.png",
+                "./img/PNG-cards-1.3/10_of_hearts.png",
+                "./img/PNG-cards-1.3/10_of_spades.png",
+                "./img/PNG-cards-1.3/jack_of_clubs2.png",
+                "./img/PNG-cards-1.3/jack_of_diamonds2.png",
+                "./img/PNG-cards-1.3/jack_of_hearts2.png",
+                "./img/PNG-cards-1.3/jack_of_spades2.png",
+                "./img/PNG-cards-1.3/king_of_clubs2.png",
+                "./img/PNG-cards-1.3/king_of_diamonds2.png",
+                "./img/PNG-cards-1.3/king_of_hearts2.png",
+                "./img/PNG-cards-1.3/king_of_spades2.png",
+                "./img/PNG-cards-1.3/queen_of_clubs2.png",
+                "./img/PNG-cards-1.3/queen_of_diamonds2.png",
+                "./img/PNG-cards-1.3/queen_of_hearts2.png",
+                "./img/PNG-cards-1.3/queen_of_spades2.png",
+            ]
+        },
         {
             value: 1,
             imgUrl: [
@@ -76,79 +178,107 @@ const game = {
                 "./img/PNG-cards-1.3/6_of_hearts.png",
                 "./img/PNG-cards-1.3/6_of_spades.png",
             ]
-        },
-        {
-            value: 7,
-            imgUrl: [
-                "./img/PNG-cards-1.3/7_of_clubs.png",
-                "./img/PNG-cards-1.3/7_of_diamonds.png",
-                "./img/PNG-cards-1.3/7_of_hearts.png",
-                "./img/PNG-cards-1.3/7_of_spades.png",
-            ]
-        },
-        {
-            value: 8,
-            imgUrl: [
-                "./img/PNG-cards-1.3/8_of_clubs.png",
-                "./img/PNG-cards-1.3/8_of_diamonds.png",
-                "./img/PNG-cards-1.3/8_of_hearts.png",
-                "./img/PNG-cards-1.3/8_of_spades.png",
-            ]
-        },
-        {
-            value: 9,
-            imgUrl: [
-                "./img/PNG-cards-1.3/9_of_clubs.png",
-                "./img/PNG-cards-1.3/9_of_diamonds.png",
-                "./img/PNG-cards-1.3/9_of_hearts.png",
-                "./img/PNG-cards-1.3/9_of_spades.png",
-            ]
-        },
-        {
-            value: 10,
-            imgUrl: [
-                "./img/PNG-cards-1.3/10_of_clubs.png",
-                "./img/PNG-cards-1.3/10_of_diamonds.png",
-                "./img/PNG-cards-1.3/10_of_hearts.png",
-                "./img/PNG-cards-1.3/10_of_spades.png",
-                "./img/PNG-cards-1.3/jack_of_clubs2.png",
-                "./img/PNG-cards-1.3/jack_of_diamonds2.png",
-                "./img/PNG-cards-1.3/jack_of_hearts2.png",
-                "./img/PNG-cards-1.3/jack_of_spades2.png",
-                "./img/PNG-cards-1.3/king_of_clubs2.png",
-                "./img/PNG-cards-1.3/king_of_diamonds2.png",
-                "./img/PNG-cards-1.3/king_of_hearts2.png",
-                "./img/PNG-cards-1.3/king_of_spades2.png",
-                "./img/PNG-cards-1.3/queen_of_clubs2.png",
-                "./img/PNG-cards-1.3/queen_of_diamonds2.png",
-                "./img/PNG-cards-1.3/queen_of_hearts2.png",
-                "./img/PNG-cards-1.3/queen_of_spades2.png",
-            ]
-        },
+        }
     ],
 
-    userShowCard: function(){
-        $$('.card.user').forEach(element => {
-            element.addEventListener('click',()=>{
-                if(!element.classList.contains('open')){
-                    let randomNumber = this.random();
-                    let card = this.cards[randomNumber];
-                    let numOfImage = card.imgUrl.length;
-                    let indexUrl = this.randomLinkImg(numOfImage);
-                    player.point += randomNumber + 1;
-                    console.log(player.point);
-                    // nếu mở rồi thì thôi
-                
-                    element.src = card.imgUrl[indexUrl] +'';
-                    element.classList.add('open');
+    // có nên rút tiếp không
+    isAddCard: function () {
+        console.log('Đang phân vân');
+      return (Math.floor(Math.random() * 2) + 0) === 0;
+    },
+
+    reset: function () {
+        allCards = this.cards;
+    },
+
+    addCard: function (player) {
+        if(this.numOfCards >=5) {
+            alert('Rút 5 lá đủ rồi bạn ei');
+            return;
+        }
+        let randomNumber = game.random();
+        let card = allCards[randomNumber];
+        let numOfImage = card.imgUrl.length;
+        let indexUrl = game.randomLinkImg(numOfImage);
+        player.imgUrls.push(card.imgUrl[indexUrl]);
+
+        // xoá lá bài đã được chọn khỏi list
+        allCards[randomNumber].imgUrl.splice(indexUrl,1);
+        if(card.imgUrl.length == 0){
+            allCards.splice(randomNumber,1);
+            // xoá luôn số random khỏi listRandomNumber
+            let index = listNumberRandom.indexOf(randomNumber);
+            listNumberRandom.splice(index ,1);
+        }
+        // console.log('OK');
+        // console.log(allCards);
+        player.point += card.value;
+        player.addBehindCard();
+        player.numOfCards++;
+    },
+    
+    changePlayer: async function () {
+        let numOfCards = bot.numOfCards;
+        let point = bot.point;
+        console.log(numOfCards);
+        console.log(point);
+        while(numOfCards <=4 && point<19){
+            if(point >= 16){
+                choose = this.isAddCard();
+                console.log(choose);
+                if(choose){
+                    bot.addCard();
+                    point = bot.point;
+                    console.log("Add " + point);
+                    numOfCards++;
+                    if(point>=21) break;
                 }
-            })
-        });
+            }else {
+                bot.addCard();
+                point = bot.point;
+                numOfCards++;
+                if(point>=21) break;
+            }
+
+            // if(point<16){
+            //     console.log("nho hon 16");
+            //     point += await game.botAutoAddCard();
+            //     numOfCards++;
+            // } else if(point <= 18 && point >= 16){
+            //     console.log("16 - 18");
+            //     if(this.isAddCard()){
+            //         point += await game.botAutoAddCard();
+            //         numOfCards++;
+            //     } else break;          
+            // }
+            // else {
+            //     console.log("Tren 18");
+            //     break;
+            // }
+        }
+    },
+
+    // async botAutoAddCard(){
+    //     return setTimeout(()=>{
+    //         bot.addCard();
+    //         return bot.point;
+    //         }, 1000)
+    // },
+
+    finishGame(){
+        this.changePlayer();
+        setTimeout(()=>{
+            console.log('Kết thúc','bot:', bot.point, 'player', player.point);
+            bot.showAllCard();
+            player.showAllCard();
+            $('#bot-message > span').innerText = `${bot.point} điểm`;
+            $('#player-message > span').innerText = `${player.point} điểm`;
+        },3000);
     },
 
 
     random: function(){
-        return Math.floor(Math.random() * 10) + 0;
+        return Math.floor(Math.random() * listNumberRandom.length) + 0;
     },
 
     randomLinkImg: function(number){
@@ -162,37 +292,12 @@ const game = {
 
 
     start: function(){
-        userHtmls = `<div>
-        <img class="card user" src="./img/behind-card.png" alt="">
-    </div><div>
-    <img class="card user" src="./img/behind-card.png" alt="">
-    </div> `
-        botHtmmls = `<div>
-        <img class="card" src="./img/behind-card.png" alt="">
-    </div><div>
-    <img class="card" src="./img/behind-card.png" alt="">
-    </div> `
-    myCard.innerHTML = userHtmls;
-    botCard.innerHTML = botHtmmls;
+    this.reset();
+    player.innitCard();
+    bot.innitCard();
     btnPlay.hidden = true;
-    actionElement.innerHTML = `<button class="btn-action btn-dan">Dằn</button>
-    <button class="btn-action btn-rut" onclick = game.addCardUser();>Rút</button>`;
-    this.userShowCard();
+    actionElement.innerHTML = `<button class="btn-action btn-dan" onclick = player.finishAddCard()>Dằn</button>
+    <button class="btn-action btn-rut" onclick = player.addCard();>Rút</button>`;
     },
-
-    getCard: function(){
-        str = `<div>
-        <img class="card" src="./img/behind-card.png" alt="">
-    </div>`
-        myCard.innerHTML += str;
-    },
-
-    addCardUser: function(){
-        htmls = `<div>
-        <img class="card user" src="./img/behind-card.png" alt="">
-    </div> `
-    myCard.innerHTML += htmls;
-    this.userShowCard();
-    }
 
 }

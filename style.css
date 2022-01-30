@@ -63,8 +63,8 @@ html {
 }
 
 img.card {
-    width: 90px;
-    height: 110px;
+    width: 70px;
+    height: 90px;
 }
 
 .user-area {
@@ -115,4 +115,10 @@ img.card {
 
 #action {
     z-index: 10;
+}
+
+#player-message, #bot-message {
+    color: #fff;
+    display: flex;
+    align-items: center;
 }
