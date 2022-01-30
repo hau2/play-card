@@ -353,7 +353,10 @@ const game = {
             let bgMess = '';
             let boderColor = '';
             if(winner.type == 'bot'){
-                resultMess = 'Máy thắng';
+                // nếu player dưới 15 và bot không có xì ách
+                if(player.getResult() < 15 && bot.getResult() != 44)
+                resultMess = 'Bạn thua vì < 15';
+                else resultMess = 'Bạn thua';
                 bgMess = '#8a160e';
                 boderColor = 'red';
             } else if (winner.type == 'player') {
@@ -431,6 +434,8 @@ const game = {
     getWiner: function () { //tìm ra người thắng
         let botResult = bot.getResult();
         let playerResult = player.getResult();
+
+        if(playerResult <= 15) return bot;
 
         if(botResult == 44 || botResult == 66){
             return bot;
