@@ -365,7 +365,7 @@ const game = {
             let boderColor = '';
             if(winner.type == 'bot'){
                 // nếu player dưới 15 và bot không có xì dách, xì bàng
-                if(player.getResult() < 15 && bot.getResult() != 44 || bot.getResult() != 66)
+                if(player.getResult() < 15 && bot.getResult() != 44 && bot.getResult() != 66)
                 resultMess = 'Bạn thua vì < 15';
                 else resultMess = 'Bạn thua';
                 bgMess = '#8a160e';
