@@ -7,6 +7,8 @@ var btnPlay = $('.btn-play');
 var actionElement = $('#action');
 var btnRut = $('.btn-rut');
 var btnDan = $('.btn-dan');
+var botMessage = $('#bot-message > span');
+var playerMessage =  $('#player-message > span');
 
 class Player {
     constructor(type = 'player'){
@@ -19,6 +21,14 @@ class Player {
     hasAce = false;
     imgUrls = [];
     finish = false;
+
+    reset(){
+        this.point = 0;
+        this.numOfCards = 0;
+        this.hasAce = false;
+        this.imgUrls = [];
+        this.finish = false;
+    }
 
     addBehindCard(){
         // bài úp
@@ -72,114 +82,113 @@ class Player {
 }
 let bot = new Player('bot');
 let player = new Player('player');
-var allCards = [];
+var listCardsClone = [];
 var listNumberRandom = [0,1,2,3,4,5,6,7,8,9];
+var listCards = [
+    {
+        value: 7,
+        imgUrl: [
+            "./img/PNG-cards-1.3/7_of_clubs.png",
+            "./img/PNG-cards-1.3/7_of_diamonds.png",
+            "./img/PNG-cards-1.3/7_of_hearts.png",
+            "./img/PNG-cards-1.3/7_of_spades.png",
+        ]
+    },
+    {
+        value: 8,
+        imgUrl: [
+            "./img/PNG-cards-1.3/8_of_clubs.png",
+            "./img/PNG-cards-1.3/8_of_diamonds.png",
+            "./img/PNG-cards-1.3/8_of_hearts.png",
+            "./img/PNG-cards-1.3/8_of_spades.png",
+        ]
+    },
+    {
+        value: 9,
+        imgUrl: [
+            "./img/PNG-cards-1.3/9_of_clubs.png",
+            "./img/PNG-cards-1.3/9_of_diamonds.png",
+            "./img/PNG-cards-1.3/9_of_hearts.png",
+            "./img/PNG-cards-1.3/9_of_spades.png",
+        ]
+    },
+    {
+        value: 10,
+        imgUrl: [
+            "./img/PNG-cards-1.3/10_of_clubs.png",
+            "./img/PNG-cards-1.3/10_of_diamonds.png",
+            "./img/PNG-cards-1.3/10_of_hearts.png",
+            "./img/PNG-cards-1.3/10_of_spades.png",
+            "./img/PNG-cards-1.3/jack_of_clubs2.png",
+            "./img/PNG-cards-1.3/jack_of_diamonds2.png",
+            "./img/PNG-cards-1.3/jack_of_hearts2.png",
+            "./img/PNG-cards-1.3/jack_of_spades2.png",
+            "./img/PNG-cards-1.3/king_of_clubs2.png",
+            "./img/PNG-cards-1.3/king_of_diamonds2.png",
+            "./img/PNG-cards-1.3/king_of_hearts2.png",
+            "./img/PNG-cards-1.3/king_of_spades2.png",
+            "./img/PNG-cards-1.3/queen_of_clubs2.png",
+            "./img/PNG-cards-1.3/queen_of_diamonds2.png",
+            "./img/PNG-cards-1.3/queen_of_hearts2.png",
+            "./img/PNG-cards-1.3/queen_of_spades2.png",
+        ]
+    },
+    {
+        value: 1,
+        imgUrl: [
+            "./img/PNG-cards-1.3/ace_of_clubs.png",
+            "./img/PNG-cards-1.3/ace_of_diamonds.png",
+            "./img/PNG-cards-1.3/ace_of_hearts.png",
+            "./img/PNG-cards-1.3/ace_of_spades.png",
+        ]
+    },
+    {
+        value: 2,
+        imgUrl: [
+            "./img/PNG-cards-1.3/2_of_clubs.png",
+            "./img/PNG-cards-1.3/2_of_diamonds.png",
+            "./img/PNG-cards-1.3/2_of_hearts.png",
+            "./img/PNG-cards-1.3/2_of_spades.png",
+        ]
+    },
+    {
+        value: 3,
+        imgUrl: [
+            "./img/PNG-cards-1.3/3_of_clubs.png",
+            "./img/PNG-cards-1.3/3_of_diamonds.png",
+            "./img/PNG-cards-1.3/3_of_hearts.png",
+            "./img/PNG-cards-1.3/3_of_spades.png",
+        ]
+    },
+    {
+        value: 4,
+        imgUrl: [
+            "./img/PNG-cards-1.3/4_of_clubs.png",
+            "./img/PNG-cards-1.3/4_of_diamonds.png",
+            "./img/PNG-cards-1.3/4_of_hearts.png",
+            "./img/PNG-cards-1.3/4_of_spades.png",
+        ]
+    },
+    {
+        value: 5,
+        imgUrl: [
+            "./img/PNG-cards-1.3/5_of_clubs.png",
+            "./img/PNG-cards-1.3/5_of_diamonds.png",
+            "./img/PNG-cards-1.3/5_of_hearts.png",
+            "./img/PNG-cards-1.3/5_of_spades.png",
+        ]
+    },
+    {
+        value: 6,
+        imgUrl: [
+            "./img/PNG-cards-1.3/6_of_clubs.png",
+            "./img/PNG-cards-1.3/6_of_diamonds.png",
+            "./img/PNG-cards-1.3/6_of_hearts.png",
+            "./img/PNG-cards-1.3/6_of_spades.png",
+        ]
+    }
+];
 const game = {
-
-    cards: [
-        {
-            value: 7,
-            imgUrl: [
-                "./img/PNG-cards-1.3/7_of_clubs.png",
-                "./img/PNG-cards-1.3/7_of_diamonds.png",
-                "./img/PNG-cards-1.3/7_of_hearts.png",
-                "./img/PNG-cards-1.3/7_of_spades.png",
-            ]
-        },
-        {
-            value: 8,
-            imgUrl: [
-                "./img/PNG-cards-1.3/8_of_clubs.png",
-                "./img/PNG-cards-1.3/8_of_diamonds.png",
-                "./img/PNG-cards-1.3/8_of_hearts.png",
-                "./img/PNG-cards-1.3/8_of_spades.png",
-            ]
-        },
-        {
-            value: 9,
-            imgUrl: [
-                "./img/PNG-cards-1.3/9_of_clubs.png",
-                "./img/PNG-cards-1.3/9_of_diamonds.png",
-                "./img/PNG-cards-1.3/9_of_hearts.png",
-                "./img/PNG-cards-1.3/9_of_spades.png",
-            ]
-        },
-        {
-            value: 10,
-            imgUrl: [
-                "./img/PNG-cards-1.3/10_of_clubs.png",
-                "./img/PNG-cards-1.3/10_of_diamonds.png",
-                "./img/PNG-cards-1.3/10_of_hearts.png",
-                "./img/PNG-cards-1.3/10_of_spades.png",
-                "./img/PNG-cards-1.3/jack_of_clubs2.png",
-                "./img/PNG-cards-1.3/jack_of_diamonds2.png",
-                "./img/PNG-cards-1.3/jack_of_hearts2.png",
-                "./img/PNG-cards-1.3/jack_of_spades2.png",
-                "./img/PNG-cards-1.3/king_of_clubs2.png",
-                "./img/PNG-cards-1.3/king_of_diamonds2.png",
-                "./img/PNG-cards-1.3/king_of_hearts2.png",
-                "./img/PNG-cards-1.3/king_of_spades2.png",
-                "./img/PNG-cards-1.3/queen_of_clubs2.png",
-                "./img/PNG-cards-1.3/queen_of_diamonds2.png",
-                "./img/PNG-cards-1.3/queen_of_hearts2.png",
-                "./img/PNG-cards-1.3/queen_of_spades2.png",
-            ]
-        },
-        {
-            value: 1,
-            imgUrl: [
-                "./img/PNG-cards-1.3/ace_of_clubs.png",
-                "./img/PNG-cards-1.3/ace_of_diamonds.png",
-                "./img/PNG-cards-1.3/ace_of_hearts.png",
-                "./img/PNG-cards-1.3/ace_of_spades.png",
-            ]
-        },
-        {
-            value: 2,
-            imgUrl: [
-                "./img/PNG-cards-1.3/2_of_clubs.png",
-                "./img/PNG-cards-1.3/2_of_diamonds.png",
-                "./img/PNG-cards-1.3/2_of_hearts.png",
-                "./img/PNG-cards-1.3/2_of_spades.png",
-            ]
-        },
-        {
-            value: 3,
-            imgUrl: [
-                "./img/PNG-cards-1.3/3_of_clubs.png",
-                "./img/PNG-cards-1.3/3_of_diamonds.png",
-                "./img/PNG-cards-1.3/3_of_hearts.png",
-                "./img/PNG-cards-1.3/3_of_spades.png",
-            ]
-        },
-        {
-            value: 4,
-            imgUrl: [
-                "./img/PNG-cards-1.3/4_of_clubs.png",
-                "./img/PNG-cards-1.3/4_of_diamonds.png",
-                "./img/PNG-cards-1.3/4_of_hearts.png",
-                "./img/PNG-cards-1.3/4_of_spades.png",
-            ]
-        },
-        {
-            value: 5,
-            imgUrl: [
-                "./img/PNG-cards-1.3/5_of_clubs.png",
-                "./img/PNG-cards-1.3/5_of_diamonds.png",
-                "./img/PNG-cards-1.3/5_of_hearts.png",
-                "./img/PNG-cards-1.3/5_of_spades.png",
-            ]
-        },
-        {
-            value: 6,
-            imgUrl: [
-                "./img/PNG-cards-1.3/6_of_clubs.png",
-                "./img/PNG-cards-1.3/6_of_diamonds.png",
-                "./img/PNG-cards-1.3/6_of_hearts.png",
-                "./img/PNG-cards-1.3/6_of_spades.png",
-            ]
-        }
-    ],
 
     // có nên rút tiếp không
     isAddCard: function () {
@@ -188,7 +197,14 @@ const game = {
     },
 
     reset: function () {
-        allCards = this.cards;
+        player.reset();
+        bot.reset();
+        botMessage.innerHTML = ``;
+        playerMessage.innerHTML = ``;
+        playerCard.innerHTML = ``;
+        botCard.innerHTML = ``;
+        listCardsClone = JSON.parse(JSON.stringify(listCards));
+        listNumberRandom = [0,1,2,3,4,5,6,7,8,9];
     },
 
     addCard: function (player) {
@@ -197,24 +213,25 @@ const game = {
             return;
         }
         let randomNumber = game.random();
-        let card = allCards[randomNumber];
+        let card = listCardsClone[randomNumber];
         let numOfImage = card.imgUrl.length;
         let indexUrl = game.randomLinkImg(numOfImage);
         player.imgUrls.push(card.imgUrl[indexUrl]);
 
         // xoá lá bài đã được chọn khỏi list
-        allCards[randomNumber].imgUrl.splice(indexUrl,1);
+        listCardsClone[randomNumber].imgUrl.splice(indexUrl,1);
         if(card.imgUrl.length == 0){
-            allCards.splice(randomNumber,1);
+            listCardsClone.splice(randomNumber,1);
             // xoá luôn số random khỏi listRandomNumber
             let index = listNumberRandom.indexOf(randomNumber);
             listNumberRandom.splice(index ,1);
         }
         // console.log('OK');
-        // console.log(allCards);
+        // console.log(listCardsClone);
         player.point += card.value;
         player.addBehindCard();
         player.numOfCards++;
+        console.log(card.value);
     },
     
     changePlayer: async function () {
@@ -271,9 +288,10 @@ const game = {
             console.log('Kết thúc','bot:', bot.point, 'player', player.point);
             bot.showAllCard();
             player.showAllCard();
-            $('#bot-message > span').innerText = `${bot.point} điểm`;
-            $('#player-message > span').innerText = `${player.point} điểm`;
-        },3000);
+            botMessage.innerText = `${bot.point} điểm`;
+            playerMessage.innerText = `${player.point} điểm`;
+            btnPlay.hidden = false;
+        },2000);
     },
 
 
