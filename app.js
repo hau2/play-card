@@ -5,8 +5,8 @@ var playerCard = $('#my-cards');
 var botCard = $('#bot-cards');
 var btnPlay = $('.btn-play');
 var actionElement = $('#action');
-var btnRut = $('.btn-rut');
-var btnDan = $('.btn-dan');
+var btnRut = null;
+var btnDan = null;
 var botMessage = $('#bot-message > span');
 var playerMessage =  $('#player-message > span');
 
@@ -283,6 +283,9 @@ const game = {
     // },
 
     finishGame(){
+        console.log();
+        btnRut.hidden = true;
+        btnDan.hidden = true;
         this.changePlayer();
         setTimeout(()=>{
             console.log('Kết thúc','bot:', bot.point, 'player', player.point);
@@ -314,8 +317,11 @@ const game = {
     player.innitCard();
     bot.innitCard();
     btnPlay.hidden = true;
+    btnPlay.innerText = 'Chơi lại';
     actionElement.innerHTML = `<button class="btn-action btn-dan" onclick = player.finishAddCard()>Dằn</button>
     <button class="btn-action btn-rut" onclick = player.addCard();>Rút</button>`;
+    btnRut = $('.btn-rut');
+    btnDan = $('.btn-dan');
     },
 
 }
