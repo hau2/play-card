@@ -91,13 +91,25 @@ class Player {
         } else if(this.numOfAces>0 && this.numOfCards == 2) {
             return this.point + 10;
         } else if(this.numOfAces>0 && this.numOfCards == 3){
-            let check = this.point + this.numOfAces*9;
-            if(check > 21) return this.point;
-            else {
-                let value1 =  this.point + this.numOfAces*9;
-                let value2 = this.point + this.numOfAces*10;
-                return (value2 > value1 && value2<=21) ? value2 : value1; 
+            let value1 =  this.point + this.numOfAces*9;
+            let value2 = this.point + this.numOfAces*10;
+            let value3 = this.point;
+            let arrayValue = [];
+            arrayValue.push(value1,value2,value3);
+
+            // điểm nào > 21 sẽ cho bằng 0
+            for(let i=0; i<3; i++){
+                if(arrayValue[i] > 21) arrayValue[i] = 0;
             }
+
+            // tìm điểm lớn nhất
+            let max = arrayValue[0];
+            for(let i=0; i<3; i++){
+                if(arrayValue[i]>max) max = arrayValue[i];
+            }
+            // return (value2 > value1 && value2<=21) ? value2 : value1;
+            console.log(max);
+            return max;
         } if(this.point > 21){
             return 77;
         } else return this.point;
