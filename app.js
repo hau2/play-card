@@ -109,8 +109,8 @@ class Player {
             }
             // return (value2 > value1 && value2<=21) ? value2 : value1;
 
-            // nếu cả 3 value đều quá 21 điểm thì sẽ lấy điểm của ban đầu
-            return max == 0 ? this.point : max;
+            // nếu cả 3 value đều quá 21 điểm thì sẽ lấy điểm của ban đầu, ngượic lại thì quắc
+            return max == 0 ? 77 : max;
         } if(this.point > 21){
             return 77;
         } else return this.point;
