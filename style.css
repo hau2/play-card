@@ -12,9 +12,6 @@
     padding: 20px 0;
     height: 100vh;
     width: 100vw;
-    /* background-image: url("./img/table-game.jpg");
-    background-repeat: no-repeat;
-    background-size: contain; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -160,4 +157,5 @@ img.card {
 
 #bot-message span, #player-message span {
     box-shadow: -2px 3px 24px -3px #fff;
-} */
+}
+ */
