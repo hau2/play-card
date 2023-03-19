@@ -1,4 +1,4 @@
-/* html {
+html {
     box-sizing: border-box;
 }
 * {
@@ -152,4 +152,3 @@ img.card {
 #bot-message span, #player-message span {
     box-shadow: -2px 3px 24px -3px #fff;
 }
- */
