@@ -71,7 +71,6 @@ img.card {
 
 .bot-area, .player-area {
     height: 100px;
-    /* width: 100%; */
     display: flex;
 }
 
@@ -96,11 +95,6 @@ img.card {
 
 .btn-wrap {
     display: flex;
-    /* position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center; */
-    
 }
 
 .btn-action {
